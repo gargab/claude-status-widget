@@ -5,8 +5,8 @@
 **A floating arcade traffic light for your desktop that shows what Claude Code is doing — without switching windows.**
 
 <p>
-<a href="https://github.com/gargab/claude-status-widget/releases"><img src="https://img.shields.io/github/v/release/gargab/claude-status-widget?style=for-the-badge&color=FF6B35" alt="Release"></a>
-<a href="https://github.com/gargab/claude-status-widget/blob/main/LICENSE"><img src="https://img.shields.io/github/license/gargab/claude-status-widget?style=for-the-badge&color=8B5CF6" alt="License"></a>
+<img src="https://img.shields.io/badge/version-0.1.0-FF6B35?style=for-the-badge" alt="Version">
+<a href="https://github.com/gargab/claude-status-widget/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-8B5CF6?style=for-the-badge" alt="License"></a>
 <img src="https://img.shields.io/badge/platform-macOS-black?style=for-the-badge&logo=apple" alt="macOS">
 <img src="https://img.shields.io/badge/built%20with-Electron-47848F?style=for-the-badge&logo=electron" alt="Electron">
 </p>
@@ -48,7 +48,7 @@ claude-status setup
 
 **Option 2 — pre-built app**
 
-Download from [Releases](https://github.com/gargab/claude-status-widget/releases) and run `claude-status setup` from the CLI separately.
+Download a pre-built `.dmg` from [Releases](https://github.com/gargab/claude-status-widget/releases) *(coming soon)* and run `claude-status setup` from the CLI separately.
 
 > **Requires:** Node.js 18+, Claude Code CLI
 

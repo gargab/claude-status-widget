@@ -17,7 +17,9 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "testMatch": ["**/tests/**/*.test.js"]
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
   },
   "dependencies": {
     "chokidar": "^3.6.0",
@@ -31,16 +33,29 @@
   "build": {
     "appId": "com.claudestatuswidget",
     "productName": "Claude Status Widget",
-    "files": ["**/*", "!docs", "!tests", "!*.test.js"],
+    "files": [
+      "**/*",
+      "!docs",
+      "!tests",
+      "!*.test.js"
+    ],
     "mac": {
       "category": "public.app-category.utilities",
-      "target": ["dmg", "zip"]
+      "target": [
+        "dmg",
+        "zip"
+      ]
     },
     "win": {
-      "target": ["nsis"]
+      "target": [
+        "nsis"
+      ]
     },
     "linux": {
-      "target": ["AppImage"]
+      "target": [
+        "AppImage"
+      ]
     }
-  }
+  },
+  "license": "MIT"
 }
