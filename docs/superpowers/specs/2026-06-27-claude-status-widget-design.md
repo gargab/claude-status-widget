@@ -159,6 +159,8 @@ claude-status-widget/
 - **Right-click** on widget opens a minimal context menu: `[Mute / Unmute]` `[Quit]`
 - Muted state: widget dims to 40% opacity; small `🔇` indicator appears bottom-center
 - Window position persisted to disk, restored on relaunch
+- **Global hotkey** (default `Cmd+Shift+S`) toggles widget visibility — show/hide without quitting process
+- Hotkey configurable via `~/.claude-status/config.json` key `"toggleHotkey"`
 
 ### Policeman dialog window (~400×300px)
 
@@ -225,3 +227,17 @@ No changes needed to the widget or state machine for v2.
 - Chiptune sound assets: source from open-license chiptune library
 - Windows autostart mechanism: confirm best practice (registry vs startup folder)
 - npm package name availability: check `claude-status-widget` before publishing
+
+---
+
+## Config File
+
+**Path:** `~/.claude-status/config.json`
+
+```json
+{
+  "toggleHotkey": "Cmd+Shift+S",
+  "muted": false,
+  "windowPosition": { "x": 100, "y": 100 }
+}
+```
