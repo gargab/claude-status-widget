@@ -1,5 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><title>Claude Status Dialog</title></head>
-<body style="margin:0;background:transparent;"></body>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="dialog.css">
+</head>
+<body>
+  <div class="dialog-panel">
+    <div class="officer">👮</div>
+    <div class="message-box">
+      <div class="message-text" id="message">
+        <span class="cursor"></span>
+      </div>
+      <div class="buttons">
+        <button class="btn keep" id="btn-keep">[ KEEP WATCHING ]</button>
+        <button class="btn dismiss" id="btn-dismiss">[ DISMISS IT ]</button>
+      </div>
+    </div>
+  </div>
+  <script src="../renderer/sounds.js"></script>
+  <script src="dialog.js"></script>
+</body>
 </html>

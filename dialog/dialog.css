@@ -1,0 +1,94 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: transparent;
+  user-select: none;
+  overflow: hidden;
+  font-family: monospace;
+}
+
+.dialog-panel {
+  width: 400px;
+  height: 300px;
+  background: rgba(10, 10, 10, 0.96);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.dialog-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 2px,
+    rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px
+  );
+  pointer-events: none;
+  border-radius: 16px;
+}
+
+.officer {
+  font-size: 64px;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+  flex-shrink: 0;
+}
+
+.message-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.message-text {
+  color: #ffd700;
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 72px;
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: #ffd700;
+  animation: blink 0.8s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn {
+  background: transparent;
+  border: 1px solid #ffd700;
+  color: #ffd700;
+  font-family: monospace;
+  font-size: 11px;
+  padding: 7px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.5px;
+}
+
+.btn:hover {
+  background: #ffd700;
+  color: #000;
+}
+
+.btn.dismiss { border-color: #ff2020; color: #ff2020; }
+.btn.dismiss:hover { background: #ff2020; color: #000; }
