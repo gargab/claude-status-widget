@@ -1,32 +1,102 @@
-# Claude Status Widget
+<div align="center">
 
-> Arcade-style traffic light that shows your Claude Code session status in real time.
+# 🚦 Claude Status Widget
 
-🟥 **Red** — Claude is waiting for your input  
-🟡 **Yellow** — Claude is processing  
-🟢 **Green** — All sessions idle
+**A floating arcade traffic light for your desktop that shows what Claude Code is doing — without switching windows.**
 
-No more switching windows to check if Claude is done.
+<p>
+<a href="https://github.com/gargab/claude-status-widget/releases"><img src="https://img.shields.io/github/v/release/gargab/claude-status-widget?style=for-the-badge&color=FF6B35" alt="Release"></a>
+<a href="https://github.com/gargab/claude-status-widget/blob/main/LICENSE"><img src="https://img.shields.io/github/license/gargab/claude-status-widget?style=for-the-badge&color=8B5CF6" alt="License"></a>
+<img src="https://img.shields.io/badge/platform-macOS-black?style=for-the-badge&logo=apple" alt="macOS">
+<img src="https://img.shields.io/badge/built%20with-Electron-47848F?style=for-the-badge&logo=electron" alt="Electron">
+</p>
 
-## Install
+<p>
+<a href="#-install"><kbd> &nbsp; ⚡ Install &nbsp; </kbd></a>
+<a href="#-how-it-works"><kbd> &nbsp; 🔧 How it works &nbsp; </kbd></a>
+<a href="#-usage"><kbd> &nbsp; 🖱️ Usage &nbsp; </kbd></a>
+</p>
+
+</div>
+
+---
+
+## 💡 Why this exists
+
+You kick off a long Claude Code task and switch to other work. You have no idea if it's still running, waiting for your input, or crashed — without alt-tabbing back to check.
+
+**Claude Status Widget sits in the corner of your screen and tells you exactly what's happening across all your Claude Code sessions in real time.**
+
+- 🟢 **Green** — Claude is done. Come back whenever.
+- 🟡 **Yellow** — Claude is actively processing. Stay focused on what you're doing.
+- 🔴 **Red** — A session has been stuck or idle for 20+ minutes. Something needs your attention.
+
+It works across all macOS spaces and full-screen apps. Always visible. Zero noise.
+
+---
+
+## ⚡ Install
+
+**Option 1 — npm (recommended)**
 
 ```bash
 npm install -g claude-status-widget
 claude-status setup
 ```
 
-Or download a pre-built app from [Releases](../../releases).
+`setup` registers Claude Code lifecycle hooks that write session state to `~/.claude-status/sessions.json`. The widget reads that file in real time.
 
-## Usage
+**Option 2 — pre-built app**
 
-- Widget appears on your screen as a floating arcade traffic light
-- **`Cmd+Shift+S`** — show/hide widget (configurable)
-- **Right-click** — mute sounds or quit
-- After 1 hour idle in Red — a policeman will ask if you want to keep watching
+Download from [Releases](https://github.com/gargab/claude-status-widget/releases) and run `claude-status setup` from the CLI separately.
 
-## Configure
+> **Requires:** Node.js 18+, Claude Code CLI
 
-Edit `~/.claude-status/config.json`:
+---
+
+## 🔧 How it works
+
+Claude Code supports lifecycle hooks — shell scripts that fire on session events. This widget installs four hooks:
+
+| Hook | What it signals |
+|---|---|
+| `UserPromptSubmit` | You sent a message → session is active |
+| `PreToolUse` / `PostToolUse` | Claude is running a tool → still processing |
+| `Stop` | Claude finished responding → session idle |
+
+Each hook writes a tiny JSON update to `~/.claude-status/sessions.json`. The widget watches that file with `chokidar` and recomputes the aggregate status across all sessions instantly.
+
+**Aggregate rules:**
+
+| Condition | Color |
+|---|---|
+| Any session processing (updated < 20 min ago) | 🟡 Yellow |
+| Any session stuck/idle for 20+ min | 🔴 Red |
+| All sessions idle or done | 🟢 Green |
+
+On startup, sessions older than 20 minutes are automatically purged so yesterday's crashed terminals don't haunt you.
+
+---
+
+## 🖱️ Usage
+
+The widget floats above all windows and follows you across every macOS Space and full-screen app.
+
+| Action | What it does |
+|---|---|
+| `Cmd+Shift+S` | Show / hide the widget |
+| Right-click → **Mute** | Silence the status-change sound effects |
+| Right-click → **Refresh** | Force re-read the session state file |
+| Right-click → **Clear All Sessions** | Reset everything to Green immediately |
+| Right-click → **Quit** | Exit the widget |
+
+> **Tip:** If a session gets stuck and won't clear, right-click → **Clear All Sessions**. It wipes the state file and resets the widget to Green.
+
+---
+
+## ⚙️ Configure
+
+Edit `~/.claude-status/config.json` to customise:
 
 ```json
 {
@@ -36,12 +106,51 @@ Edit `~/.claude-status/config.json`:
 }
 ```
 
-## Uninstall
+The widget writes `windowPosition` back automatically when you drag it around.
+
+---
+
+## 🗑️ Uninstall
 
 ```bash
 claude-status uninstall
 ```
 
-## Contributing
+Removes hooks from `~/.claude/settings.json` and clears `~/.claude-status/`.
 
-Issues and PRs welcome. State logic is in `src/` and fully unit tested (`npm test`).
+---
+
+## 🏗️ Architecture
+
+```
+claude-status-widget/
+├── main.js              # Electron main — window management, file watcher, IPC
+├── preload.js           # Context bridge — safe renderer ↔ main channel
+├── renderer/            # Widget UI — traffic light, sounds, context menu
+├── hook/                # Hook runner — reads Claude Code event, writes state
+├── cli/                 # CLI — setup, uninstall, global binary
+└── src/
+    ├── state-manager.js      # Read/write ~/.claude-status/sessions.json
+    ├── status-aggregator.js  # Pure logic: sessions → red/yellow/green
+    └── config-manager.js     # Read/write ~/.claude-status/config.json
+```
+
+Status logic is pure and fully unit tested:
+
+```bash
+npm test   # 23 tests, zero dependencies on Electron
+```
+
+---
+
+## 🤝 Contributing
+
+Issues and PRs welcome. The interesting logic lives in [`src/status-aggregator.js`](src/status-aggregator.js) — all colour decisions go through one pure function, easy to reason about and test.
+
+```bash
+git clone https://github.com/gargab/claude-status-widget
+cd claude-status-widget
+npm install
+npm start        # run the widget locally
+npm test         # run the test suite
+```
