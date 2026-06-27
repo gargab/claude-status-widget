@@ -21,7 +21,8 @@
   },
   "dependencies": {
     "chokidar": "^3.6.0",
-    "electron": "^31.0.0"
+    "electron": "^31.0.0",
+    "nes.css": "^2.3.0"
   },
   "devDependencies": {
     "electron-builder": "^24.9.0",

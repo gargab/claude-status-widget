@@ -27,24 +27,25 @@ function updateSession(sessionId, status, source = 'claude-code') {
     status,
     lastUpdate: Math.floor(Date.now() / 1000),
     source,
-    alertedAt: state.sessions[sessionId]?.alertedAt ?? null
   };
   writeState(state);
 }
 
-function dismissSession(sessionId) {
-  const state = readState();
-  if (!state.sessions[sessionId]) return;
-  state.sessions[sessionId].status = 'idle';
-  state.sessions[sessionId].lastUpdate = Math.floor(Date.now() / 1000);
-  writeState(state);
+function clearAllSessions() {
+  writeState({ ...EMPTY_STATE });
 }
 
-function keepWatchingSession(sessionId) {
+function purgeOldSessions(olderThanSeconds) {
   const state = readState();
-  if (!state.sessions[sessionId]) return;
-  state.sessions[sessionId].alertedAt = Math.floor(Date.now() / 1000);
-  writeState(state);
+  const now = Math.floor(Date.now() / 1000);
+  let changed = false;
+  for (const [id, s] of Object.entries(state.sessions)) {
+    if ((now - (s.lastUpdate || 0)) > olderThanSeconds) {
+      delete state.sessions[id];
+      changed = true;
+    }
+  }
+  if (changed) writeState(state);
 }
 
-module.exports = { readState, updateSession, dismissSession, keepWatchingSession };
+module.exports = { readState, updateSession, clearAllSessions, purgeOldSessions };
