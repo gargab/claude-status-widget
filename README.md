@@ -4,6 +4,8 @@
 
 **A floating arcade traffic light for your desktop that shows what Claude Code is doing — without switching windows.**
 
+**Tracks all your Claude Code sessions in one place** — terminal CLI instances and the Claude Code desktop/web app simultaneously.
+
 <p>
 <img src="https://img.shields.io/badge/version-0.1.0-FF6B35?style=for-the-badge" alt="Version">
 <a href="https://github.com/gargab/claude-status-widget/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-8B5CF6?style=for-the-badge" alt="License"></a>
@@ -177,6 +179,18 @@ Status logic is pure and fully unit tested:
 ```bash
 npm test   # 23 tests, zero dependencies on Electron
 ```
+
+---
+
+## 🗺️ Roadmap
+
+| Feature | Status |
+|---|---|
+| Claude Code CLI sessions (terminal) | ✅ Shipped |
+| Claude Code desktop / web app sessions | ✅ Shipped |
+| **Claude.ai chat session tracking** | 🔜 Planned |
+
+> Claude.ai chat sessions (claude.ai in the browser) don't expose lifecycle hooks today. Tracking support will land once a reliable signal is available.
 
 ---
 
