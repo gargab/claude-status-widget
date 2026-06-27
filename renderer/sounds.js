@@ -4,20 +4,21 @@ function getCtx() {
   return _ctx;
 }
 
-function playTone(frequency, duration, type = 'square') {
+function playTone(frequency, duration, type = 'square', gain = 0.3) {
   try {
     const ctx = getCtx();
     ctx.resume().then(() => {
+      const t = ctx.currentTime + 0.01; // small offset to survive resume latency
       const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+      const gainNode = ctx.createGain();
+      osc.connect(gainNode);
+      gainNode.connect(ctx.destination);
       osc.type = type;
       osc.frequency.value = frequency;
-      gain.gain.setValueAtTime(0.25, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + duration);
+      gainNode.gain.setValueAtTime(gain, t);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, t + duration);
+      osc.start(t);
+      osc.stop(t + duration);
     });
   } catch { /* audio context unavailable */ }
 }
@@ -28,8 +29,9 @@ function playRedSound() {
 }
 
 function playGreenSound() {
-  playTone(440, 0.08, 'sine');
-  setTimeout(() => playTone(880, 0.2, 'sine'), 90);
+  playTone(523, 0.15, 'square', 0.2);
+  setTimeout(() => playTone(659, 0.15, 'square', 0.2), 150);
+  setTimeout(() => playTone(784, 0.3,  'square', 0.2), 300);
 }
 
 function playFanfare() {

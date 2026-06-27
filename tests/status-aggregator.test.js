@@ -1,8 +1,8 @@
 const { computeAggregateStatus } = require('../src/status-aggregator');
 
-test('returns red when waiting session is stale (over 20 min)', () => {
+test('returns green when waiting session is stale (waiting never triggers red)', () => {
   const sessions = { a: { status: 'waiting', lastUpdate: 0 } };
-  expect(computeAggregateStatus(sessions)).toBe('red');
+  expect(computeAggregateStatus(sessions)).toBe('green');
 });
 
 test('returns green when waiting session is fresh (under 20 min)', () => {

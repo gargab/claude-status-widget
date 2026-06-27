@@ -11,9 +11,10 @@ function computeAggregateStatus(sessions) {
     (now - (s.lastUpdate || 0)) < STALE_THRESHOLD_SECONDS
   );
 
-  // RED: any session stale beyond threshold
+  // RED: only processing sessions stuck beyond threshold (crashed or hung)
+  // waiting = Claude finished — never RED, just GREEN regardless of age
   const isStale = values.some(s =>
-    (s.status === 'waiting' || s.status === 'processing') &&
+    s.status === 'processing' &&
     (now - (s.lastUpdate || 0)) >= STALE_THRESHOLD_SECONDS
   );
 
