@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut, ipcMain, Menu } = require('electron');
+const { app, BrowserWindow, globalShortcut, ipcMain, Menu, powerMonitor } = require('electron');
 const chokidar = require('chokidar');
 const path = require('path');
 const os = require('os');
@@ -79,6 +79,12 @@ app.whenReady().then(() => {
   watcher.on('add', pushStatusUpdate);
 
   staleCheckInterval = setInterval(pushStatusUpdate, 60_000);
+
+  // After sleep, sessions' lastUpdate timestamps are stale — purge before re-evaluating
+  powerMonitor.on('resume', () => {
+    purgeOldSessions(20 * 60);
+    pushStatusUpdate();
+  });
 
   ipcMain.on('clear-all', () => {
     clearAllSessions();
