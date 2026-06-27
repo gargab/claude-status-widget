@@ -40,8 +40,12 @@ function createWidgetWindow() {
     }
   });
   widgetWindow.loadFile('renderer/index.html');
-  widgetWindow.setAlwaysOnTop(true, 'screen-saver');
-  widgetWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+  if (process.platform === 'darwin') {
+    widgetWindow.setAlwaysOnTop(true, 'screen-saver');
+    widgetWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+  } else {
+    widgetWindow.setAlwaysOnTop(true);
+  }
   widgetWindow.on('closed', () => { widgetWindow = null; });
   widgetWindow.on('moved', () => {
     const [x, y] = widgetWindow.getPosition();

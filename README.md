@@ -7,7 +7,7 @@
 <p>
 <img src="https://img.shields.io/badge/version-0.1.0-FF6B35?style=for-the-badge" alt="Version">
 <a href="https://github.com/gargab/claude-status-widget/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-8B5CF6?style=for-the-badge" alt="License"></a>
-<img src="https://img.shields.io/badge/platform-macOS-black?style=for-the-badge&logo=apple" alt="macOS">
+<img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows-black?style=for-the-badge" alt="Platform">
 <img src="https://img.shields.io/badge/built%20with-Electron-47848F?style=for-the-badge&logo=electron" alt="Electron">
 </p>
 
