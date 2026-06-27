@@ -33,7 +33,11 @@ function run() {
   console.log('✓ Hooks removed.');
 
   try {
-    execSync('pkill -f "Claude Status Widget"', { stdio: 'ignore' });
+    if (process.platform === 'win32') {
+      execSync('taskkill /F /IM "Claude Status Widget.exe"', { stdio: 'ignore' });
+    } else {
+      execSync('pkill -f "Claude Status Widget"', { stdio: 'ignore' });
+    }
     console.log('✓ Widget stopped.');
   } catch { /* process not running */ }
 

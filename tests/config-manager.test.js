@@ -32,3 +32,10 @@ test('readConfig merges missing keys with defaults', () => {
   expect(config.toggleHotkey).toBe('CommandOrControl+Shift+S');
   expect(config.muted).toBe(true);
 });
+
+test('readConfig uses default windowPosition when stored value is null', () => {
+  fs.mkdirSync(TEST_DIR, { recursive: true });
+  fs.writeFileSync(path.join(TEST_DIR, 'config.json'), JSON.stringify({ windowPosition: null }));
+  const config = readConfig();
+  expect(config.windowPosition).toEqual({ x: 100, y: 100 });
+});

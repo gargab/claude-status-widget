@@ -6,6 +6,7 @@ const MESSAGES = [
 ];
 
 let sessionId = null;
+let typewriterTimer = null;
 
 function typewriter(element, text, speed = 35) {
   element.textContent = '';
@@ -20,13 +21,19 @@ function typewriter(element, text, speed = 35) {
       clearInterval(timer);
     }
   }, speed);
+  return timer;
 }
 
 window.claudeStatus.onDialogInit(({ sessionId: id }) => {
   sessionId = id;
   const msg = MESSAGES[Math.floor(Math.abs(id.charCodeAt(0)) % MESSAGES.length)];
-  typewriter(document.getElementById('message'), msg);
+  if (typewriterTimer) clearInterval(typewriterTimer);
+  typewriterTimer = typewriter(document.getElementById('message'), msg);
   playFanfare();
+});
+
+window.addEventListener('beforeunload', () => {
+  if (typewriterTimer) clearInterval(typewriterTimer);
 });
 
 document.getElementById('btn-keep').addEventListener('click', () => {

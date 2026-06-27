@@ -43,3 +43,11 @@ test('getStaleWaitingSessions skips sessions alerted recently', () => {
   };
   expect(getStaleWaitingSessions(sessions, 3600)).toEqual([]);
 });
+
+test('getStaleWaitingSessions returns stale session when alertedAt is undefined', () => {
+  const now = Math.floor(Date.now() / 1000);
+  const sessions = {
+    noAlertedAt: { status: 'waiting', lastUpdate: now - 3700 }
+  };
+  expect(getStaleWaitingSessions(sessions, 3600)).toEqual(['noAlertedAt']);
+});

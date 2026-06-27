@@ -15,6 +15,7 @@ const STATE_FILE = path.join(
 let widgetWindow = null;
 let dialogWindow = null;
 let watcher = null;
+let staleCheckInterval = null;
 
 function createWidgetWindow() {
   const config = readConfig();
@@ -36,6 +37,7 @@ function createWidgetWindow() {
   });
   widgetWindow.loadFile('renderer/index.html');
   widgetWindow.setAlwaysOnTop(true, 'floating');
+  widgetWindow.on('closed', () => { widgetWindow = null; });
   widgetWindow.on('moved', () => {
     const [x, y] = widgetWindow.getPosition();
     writeConfig({ ...readConfig(), windowPosition: { x, y } });
@@ -65,7 +67,7 @@ function createDialogWindow(sessionId) {
 }
 
 function pushStatusUpdate() {
-  if (!widgetWindow) return;
+  if (!widgetWindow || widgetWindow.isDestroyed()) return;
   const state = readState();
   const status = computeAggregateStatus(state.sessions);
   const config = readConfig();
@@ -94,7 +96,7 @@ app.whenReady().then(() => {
   watcher.on('add', pushStatusUpdate);
 
   // Periodic stale-session check (catches sessions that don't update the file)
-  setInterval(pushStatusUpdate, 60_000);
+  staleCheckInterval = setInterval(pushStatusUpdate, 60_000);
 
   // IPC: dialog actions
   ipcMain.on('dismiss-session', (_e, sessionId) => {
@@ -126,6 +128,7 @@ app.whenReady().then(() => {
 });
 
 app.on('will-quit', () => {
+  clearInterval(staleCheckInterval);
   globalShortcut.unregisterAll();
   watcher?.close();
 });

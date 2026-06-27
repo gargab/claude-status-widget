@@ -14,7 +14,13 @@ const DEFAULTS = {
 function readConfig() {
   try {
     const stored = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
-    return { ...DEFAULTS, ...stored };
+    return {
+      ...DEFAULTS,
+      ...stored,
+      windowPosition: (stored.windowPosition && typeof stored.windowPosition === 'object')
+        ? { ...DEFAULTS.windowPosition, ...stored.windowPosition }
+        : DEFAULTS.windowPosition
+    };
   } catch {
     return { ...DEFAULTS };
   }

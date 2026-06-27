@@ -11,7 +11,7 @@ function getStaleWaitingSessions(sessions, thresholdSeconds = 3600) {
     .filter(([, s]) =>
       s.status === 'waiting' &&
       (now - s.lastUpdate) > thresholdSeconds &&
-      (s.alertedAt === null || (now - s.alertedAt) > thresholdSeconds)
+      (s.alertedAt == null || (now - s.alertedAt) > thresholdSeconds)
     )
     .map(([id]) => id);
 }
