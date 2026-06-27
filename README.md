@@ -121,15 +121,22 @@ On startup, sessions older than 20 minutes are automatically purged so yesterday
 
 The widget floats above all windows and follows you across every macOS Space and full-screen app.
 
-| Action | What it does |
-|---|---|
-| `Cmd+Shift+S` | Show / hide the widget |
-| Right-click → **Mute** | Silence the status-change sound effects |
-| Right-click → **Refresh** | Force re-read the session state file |
-| Right-click → **Clear All Sessions** | Reset everything to Green immediately |
-| Right-click → **Quit** | Exit the widget |
+### Keyboard shortcut
 
-> **Tip:** If a session gets stuck and won't clear, right-click → **Clear All Sessions**. It wipes the state file and resets the widget to Green.
+| Shortcut | What it does |
+|---|---|
+| `Cmd+Shift+S` | Show / hide the widget (configurable in `~/.claude-status/config.json`) |
+
+### Right-click menu
+
+| Option | What it does |
+|---|---|
+| **Mute / Unmute** | Toggle the sound effects that play when the light changes colour |
+| **Refresh** | Manually force the widget to re-read session state — useful if you think it's out of sync |
+| **Clear All Sessions** | Wipe all tracked sessions and reset the light to Green immediately |
+| **Quit** | Close the widget |
+
+> **Tip:** If a session gets stuck on Red after a crash or a killed terminal, right-click → **Clear All Sessions** to reset.
 
 ---
 

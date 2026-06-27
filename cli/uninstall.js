@@ -34,9 +34,9 @@ function run() {
 
   try {
     if (process.platform === 'win32') {
-      execSync('taskkill /F /IM "Claude Status Widget.exe"', { stdio: 'ignore' });
+      execSync('wmic process where "commandline like \'%claude-status-widget%\'" delete', { stdio: 'ignore' });
     } else {
-      execSync('pkill -f "Claude Status Widget"', { stdio: 'ignore' });
+      execSync('pkill -f "claude-status-widget"', { stdio: 'ignore' });
     }
     console.log('✓ Widget stopped.');
   } catch { /* process not running */ }
