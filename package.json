@@ -1,0 +1,45 @@
+{
+  "name": "claude-status-widget",
+  "version": "0.1.0",
+  "description": "Arcade traffic light widget for Claude Code session status",
+  "main": "main.js",
+  "bin": {
+    "claude-status": "./cli/index.js",
+    "claude-status-hook": "./hook/index.js"
+  },
+  "scripts": {
+    "start": "electron .",
+    "test": "jest --passWithNoTests",
+    "build": "electron-builder",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/tests/**/*.test.js"]
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0",
+    "electron": "^31.0.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.9.0",
+    "jest": "^29.7.0"
+  },
+  "build": {
+    "appId": "com.claudestatuswidget",
+    "productName": "Claude Status Widget",
+    "files": ["**/*", "!docs", "!tests", "!*.test.js"],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": ["dmg", "zip"]
+    },
+    "win": {
+      "target": ["nsis"]
+    },
+    "linux": {
+      "target": ["AppImage"]
+    }
+  }
+}
