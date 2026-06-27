@@ -37,20 +37,57 @@ It works across all macOS spaces and full-screen apps. Always visible. Zero nois
 
 ## ⚡ Install
 
-**Option 1 — npm (recommended)**
+### Prerequisites
+
+**1. Node.js 18+**
 
 ```bash
-npm install -g claude-status-widget
-claude-status setup
+# macOS (Homebrew)
+brew install node
+
+# Windows (winget)
+winget install OpenJS.NodeJS
+
+# Or download from https://nodejs.org
+```
+
+Verify: `node --version` should print `v18` or higher.
+
+**2. Claude Code CLI**
+
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+Verify: `claude --version` should print a version number.
+
+---
+
+### Option A — Let Claude do it
+
+Paste this into any Claude Code session and it will run the setup for you:
+
+```
+Please set up the Claude Status Widget on my machine by running:
+  git clone https://github.com/gargab/claude-status-widget
+  cd claude-status-widget && npm install && npm link
+  claude-status setup
+Then confirm it worked.
+```
+
+---
+
+### Option B — Manual
+
+```bash
+git clone https://github.com/gargab/claude-status-widget
+cd claude-status-widget
+npm install
+npm link                  # registers claude-status globally
+claude-status setup       # installs hooks + launches widget
 ```
 
 `setup` registers Claude Code lifecycle hooks that write session state to `~/.claude-status/sessions.json`. The widget reads that file in real time.
-
-**Option 2 — pre-built app**
-
-Download a pre-built `.dmg` from [Releases](https://github.com/gargab/claude-status-widget/releases) *(coming soon)* and run `claude-status setup` from the CLI separately.
-
-> **Requires:** Node.js 18+, Claude Code CLI
 
 ---
 
